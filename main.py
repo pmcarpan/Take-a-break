@@ -25,11 +25,11 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("interval", type=float, help="Disturb me after this much time (in seconds by default)")
     parser.add_argument("url", nargs="?", default=DEFAULT_URL, help="I like this url (open this in the browser)")
+    parser.add_argument("-v", "--verbose", action="store_true", help="I can't take this, I need to see how much time is left")
     
     units = parser.add_mutually_exclusive_group()
     units.add_argument("-m", "--minutes", action="store_true", help="Seconds? I want minutes!")
     units.add_argument("-H", "--hours", action="store_true", help="Minutes? Pfft! Hours, or nothing")
-    units.add_argument("-v", "--verbose", action="store_true", help="I can't take this, I need to see how much time is left")
 
     args = parser.parse_args()
     interval_in_seconds = args.interval
