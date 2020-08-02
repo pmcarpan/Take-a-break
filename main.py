@@ -12,9 +12,12 @@ Prevent the interval from going below this value (in seconds). Change at your ow
 SPAM_THRESHOLD = 10
 
 
-def take_a_break(interval_in_seconds, url):
+def take_a_break(interval_in_seconds, url, verbose):
     while True:
-        time.sleep(interval_in_seconds)
+        for t in range(int(interval_in_seconds)):
+            time.sleep(1)
+            if(verbose):
+                print("Time left:", int(interval_in_seconds - t), "s", end="\r")
         webbrowser.open_new(url)
 
 
@@ -26,6 +29,7 @@ def main():
     units = parser.add_mutually_exclusive_group()
     units.add_argument("-m", "--minutes", action="store_true", help="Seconds? I want minutes!")
     units.add_argument("-H", "--hours", action="store_true", help="Minutes? Pfft! Hours, or nothing")
+    units.add_argument("-v", "--verbose", action="store_true", help="I can't take this, I need to see how much time is left")
 
     args = parser.parse_args()
     interval_in_seconds = args.interval
@@ -42,7 +46,7 @@ def main():
         raise ValueError("This interval seems too low, and may cause crashes/freezes/etc.")
 
     try:
-        take_a_break(interval_in_seconds, args.url)
+        take_a_break(interval_in_seconds, args.url, args.verbose)
     except KeyboardInterrupt:
         print("Thanks for trying this! Good night/day/whatever.")
 
